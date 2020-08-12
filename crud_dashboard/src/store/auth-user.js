@@ -1,4 +1,5 @@
 import hostAxios from './axios/hostAxios'
+import { Notify } from 'quasar'
 
 const state = {
   users: ''
@@ -21,7 +22,17 @@ const actions = {
       .then(response => {
         console.log(response.status)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        if (err.response) {
+          Notify.create({
+            message: err.response.data.message,
+            position: 'top-right',
+            color: 'red-10',
+            icon: 'warning'
+          })
+        }
+      })
   }
 }
 
