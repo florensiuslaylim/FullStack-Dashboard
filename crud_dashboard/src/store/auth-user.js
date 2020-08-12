@@ -16,11 +16,31 @@ const mutations = {
 }
 
 const actions = {
-  postLogin ({ commit }, userData) {
-    console.log(userData)
+  postRegister ({ commit }, userData) {
     return hostAxios.post('/register', { email: userData.email, password: userData.password })
       .then(response => {
-        console.log(response.status)
+        if (response) {
+          return response.data.message
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        if (err.response) {
+          Notify.create({
+            message: err.response.data.message,
+            position: 'top-right',
+            color: 'red-10',
+            icon: 'warning'
+          })
+        }
+      })
+  },
+  postLogin ({ commit }, userData) {
+    return hostAxios.post('/auth', { email: userData.email, password: userData.password })
+      .then(response => {
+        if (response) {
+          return response.data.message
+        }
       })
       .catch(err => {
         console.log(err)

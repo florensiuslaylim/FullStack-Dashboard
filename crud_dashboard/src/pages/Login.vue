@@ -46,8 +46,8 @@
           label="Sign In"
           outlined
           rounded
-          :loading="loading"
-          @click="submitForm"
+          :loading="loadingLogin"
+          @click="loginUser"
         >
           <template v-slot:loading>
             <q-spinner-oval class="on-left" />
@@ -132,7 +132,7 @@
               label="Sign Up"
               outlined
               rounded
-              :loading="loading"
+              :loading="loadingRegister"
               @click="registerUser"
             >
               <template v-slot:loading>
@@ -148,8 +148,6 @@
 </template>
 
 <script>
-// import { mapActions } from vuex
-
 export default {
   data () {
     return {
@@ -162,7 +160,8 @@ export default {
         password: '',
         confirmPassword: ''
       },
-      loading: false,
+      loadingLogin: false,
+      loadingRegister: false,
       signup: false,
       accept: false,
       errorAccept: false
@@ -174,26 +173,42 @@ export default {
     }
   },
   methods: {
-    // ...mapActions['postLogin'],
-    submitForm () {
-      this.loading = true
-      setTimeout(() => {
-        console.log('Sign In')
-        this.loading = false
-      }, 1000)
+    loginUser () {
+      if (this.formLogin.email && this.formLogin.password) {
+        this.loadingLogin = true
+        setTimeout(() => {
+          console.log('Sign In')
+          this.loadingRegister = false
+        }, 800)
+      }
     },
     registerUser () {
       if (this.formRegister.email && this.formRegister.password && this.formRegister.confirmPassword) {
         if (this.formRegister.password === this.formRegister.confirmPassword) {
           if (this.accept) {
             this.errorAccept = false
+            this.loadingRegister = true
 
             const sendForm = {
               email: this.formRegister.email,
               password: this.formRegister.password
             }
 
-            this.$store.dispatch('postLogin', sendForm)
+            setTimeout(() => {
+              this.$store.dispatch('postRegister', sendForm)
+                .then(response => {
+                  if (response === 'User created successfully.') {
+                    this.$q.notify({
+                      message: response,
+                      color: 'green-10',
+                      position: 'top-right',
+                      icon: 'done'
+                    })
+                  }
+                  this.signup = false
+                  this.loadingRegister = false
+                })
+            }, 800)
           } else {
             this.errorAccept = true
           }
