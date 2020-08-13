@@ -1,3 +1,4 @@
+import { LocalStorage } from 'quasar'
 
 const routes = [
   {
@@ -13,7 +14,7 @@ const routes = [
   {
     path: '/',
     beforeEnter (to, from, next) {
-      const userData = false
+      const userData = LocalStorage.getItem('token')
       if (userData) {
         next()
       } else {

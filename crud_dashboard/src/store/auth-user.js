@@ -1,5 +1,5 @@
 import hostAxios from './axios/hostAxios'
-import { Notify } from 'quasar'
+import { Notify, LocalStorage } from 'quasar'
 
 const state = {
   users: ''
@@ -17,7 +17,7 @@ const mutations = {
 
 const actions = {
   postRegister ({ commit }, userData) {
-    return hostAxios.post('/register', { email: userData.email, password: userData.password })
+    return hostAxios.post('/register', { username: userData.username, password: userData.password })
       .then(response => {
         if (response) {
           return response.data.message
@@ -36,17 +36,17 @@ const actions = {
       })
   },
   postLogin ({ commit }, userData) {
-    return hostAxios.post('/auth', { email: userData.email, password: userData.password })
+    return hostAxios.post('/auth', { username: userData.username, password: userData.password })
       .then(response => {
         if (response) {
-          return response.data.message
+          LocalStorage.set('token', response.data.access_token)
+          return response.data.access_token
         }
       })
       .catch(err => {
-        console.log(err)
-        if (err.response) {
+        if (err.response.status === 401) {
           Notify.create({
-            message: err.response.data.message,
+            message: 'Your email or password is wrong',
             position: 'top-right',
             color: 'red-10',
             icon: 'warning'
