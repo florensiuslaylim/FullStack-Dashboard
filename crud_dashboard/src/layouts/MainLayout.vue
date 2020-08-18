@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf" id="layout">
-    <q-header elevated>
+    <q-header elevated id="main__header">
       <q-toolbar id="main__tolbar">
         <q-btn
           flat
@@ -63,7 +63,12 @@ export default {
     background: rgb(21,28,16);
     background: radial-gradient(circle, rgba(21,28,16,1) 12%, rgba(46,55,46,1) 41%, rgba(64,129,72,1) 100%);
   }
+
   #main__toolbar-title {
     font-family: Bangers;
+  }
+
+  #main__header {
+    box-shadow: 1px 1px white;
   }
 </style>
