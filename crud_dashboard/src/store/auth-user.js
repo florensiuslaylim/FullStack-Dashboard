@@ -53,6 +53,10 @@ const actions = {
           })
         }
       })
+  },
+  onLogout ({ commit }) {
+    LocalStorage.remove('token')
+    return { message: 'Logout successfully' }
   }
 }
 

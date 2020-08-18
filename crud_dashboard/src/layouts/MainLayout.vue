@@ -18,10 +18,10 @@
          <q-tabs
           v-model="tab"
           class="text-white"
+          shrink
+          stretch
         >
-          <q-tab name="mails" label="Mails" />
-          <q-tab name="phone" label="Phone" />
-          <q-btn flat label="Logout" no-wrap />
+          <q-btn flat stretch label="Logout" @click="logout" />
         </q-tabs>
       </q-toolbar>
     </q-header>
@@ -37,6 +37,22 @@ export default {
   data () {
     return {
       tab: 'mails'
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('onLogout')
+        .then(response => {
+          if (response) {
+            this.$q.notify({
+              message: response.message,
+              color: 'green-10',
+              position: 'top-right',
+              icon: 'done'
+            })
+            this.$router.replace('/login')
+          }
+        })
     }
   }
 }
