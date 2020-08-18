@@ -1,7 +1,7 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" id="layout">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar id="main__tolbar">
         <q-btn
           flat
           dense
@@ -11,11 +11,18 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title>
-          Quasar App
+        <q-toolbar-title id ="main__toolbar-title">
+          Dashboard
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+         <q-tabs
+          v-model="tab"
+          class="text-white"
+        >
+          <q-tab name="mails" label="Mails" />
+          <q-tab name="phone" label="Phone" />
+          <q-btn flat label="Logout" no-wrap />
+        </q-tabs>
       </q-toolbar>
     </q-header>
 
@@ -29,7 +36,18 @@
 export default {
   data () {
     return {
+      tab: 'mails'
     }
   }
 }
 </script>
+
+<style scoped>
+  #main__tolbar {
+    background: rgb(21,28,16);
+    background: radial-gradient(circle, rgba(21,28,16,1) 12%, rgba(46,55,46,1) 41%, rgba(64,129,72,1) 100%);
+  }
+  #main__toolbar-title {
+    font-family: Bangers;
+  }
+</style>
