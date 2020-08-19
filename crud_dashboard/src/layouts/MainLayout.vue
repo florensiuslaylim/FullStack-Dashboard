@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar id="main_toolbar">
         <q-btn
           flat
           dense
@@ -11,11 +11,10 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title>
-          Quasar App
+        <q-toolbar-title id="main_toolbar-title">
+          Dashboard
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -33,3 +32,14 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  #main_toolbar {
+    background: rgb(21,28,16);
+    background: radial-gradient(circle, rgba(21,28,16,1) 12%, rgba(46,55,46,1) 41%, rgba(64,129,72,1) 100%);
+  }
+
+  #main_toolbar-title {
+    font-family: 'Pacifico';
+  }
+</style>
