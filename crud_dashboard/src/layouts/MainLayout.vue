@@ -11,10 +11,18 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title id="main_toolbar-title">
+        <q-toolbar-title id ="main__toolbar-title">
           Dashboard
         </q-toolbar-title>
 
+         <q-tabs
+          v-model="tab"
+          class="text-white"
+          shrink
+          stretch
+        >
+          <q-btn flat stretch label="Logout" @click="logout" />
+        </q-tabs>
       </q-toolbar>
     </q-header>
 
@@ -28,18 +36,39 @@
 export default {
   data () {
     return {
+      tab: 'mails'
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('onLogout')
+        .then(response => {
+          if (response) {
+            this.$q.notify({
+              message: response.message,
+              color: 'green-10',
+              position: 'top-right',
+              icon: 'done'
+            })
+            this.$router.replace('/login')
+          }
+        })
     }
   }
 }
 </script>
 
 <style scoped>
-  #main_toolbar {
+  #main__tolbar {
     background: rgb(21,28,16);
     background: radial-gradient(circle, rgba(21,28,16,1) 12%, rgba(46,55,46,1) 41%, rgba(64,129,72,1) 100%);
   }
 
-  #main_toolbar-title {
-    font-family: 'Pacifico';
+  #main__toolbar-title {
+    font-family: Bangers;
+  }
+
+  #main__header {
+    box-shadow: 1px 1px white;
   }
 </style>
