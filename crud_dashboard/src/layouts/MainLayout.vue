@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf" id="layout">
-    <q-header elevated id="main__header">
+  <q-layout view="hHh Lpr lff" id="layout">
+    <q-header elevated>
       <q-toolbar id="main__tolbar">
         <q-btn
           flat
@@ -8,7 +8,7 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="sidebar = !sidebar"
         />
 
         <q-toolbar-title id ="main__toolbar-title">
@@ -26,6 +26,32 @@
       </q-toolbar>
     </q-header>
 
+    <q-drawer
+      v-model="sidebar"
+      show-if-above
+      :width="200"
+      :breakpoint="500"
+      bordered
+      content-class="bg-grey-3"
+    >
+      <q-scroll-area class="fit bg-grey-10 text-white">
+        <q-list v-for="(menuItem, index) in menuList" :key="index">
+
+          <q-item clickable :active="menuItem.label === 'Outbox'" v-ripple>
+            <q-item-section avatar>
+              <q-icon :name="menuItem.icon" />
+            </q-item-section>
+            <q-item-section>
+              {{ menuItem.label }}
+            </q-item-section>
+          </q-item>
+
+          <q-separator v-if="menuItem.separator" dark />
+
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
+
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -33,10 +59,51 @@
 </template>
 
 <script>
+const menuList = [
+  {
+    icon: 'inbox',
+    label: 'Inbox',
+    separator: true
+  },
+  {
+    icon: 'send',
+    label: 'Outbox',
+    separator: false
+  },
+  {
+    icon: 'delete',
+    label: 'Trash',
+    separator: false
+  },
+  {
+    icon: 'error',
+    label: 'Spam',
+    separator: true
+  },
+  {
+    icon: 'settings',
+    label: 'Settings',
+    separator: false
+  },
+  {
+    icon: 'feedback',
+    label: 'Send Feedback',
+    separator: false
+  },
+  {
+    icon: 'help',
+    iconColor: 'primary',
+    label: 'Help',
+    separator: false
+  }
+]
+
 export default {
   data () {
     return {
-      tab: 'mails'
+      tab: 'mails',
+      sidebar: true,
+      menuList
     }
   },
   methods: {
@@ -66,9 +133,5 @@ export default {
 
   #main__toolbar-title {
     font-family: Bangers;
-  }
-
-  #main__header {
-    box-shadow: 1px 1px white;
   }
 </style>
